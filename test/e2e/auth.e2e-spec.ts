@@ -23,7 +23,7 @@ describe('Auth (e2e)', () => {
     return request(app.getHttpServer())
       .post('/auth/login')
       .send({ email: 'admin@example.com', password: 'admin' })
-      .expect(201)
+      .expect(200)
       .expect(res => {
         expect(res.body).toHaveProperty('accessToken');
         expect(res.body).toHaveProperty('refreshToken');

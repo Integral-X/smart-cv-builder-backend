@@ -20,7 +20,7 @@ Your AI health tracker.
 
 ## Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 20+ and npm
 - PostgreSQL 14+
 - Docker & Docker Compose (recommended)
 
@@ -29,6 +29,7 @@ Your AI health tracker.
 ### Development Setup
 
 ```bash
+
 # Clone the repository
 git clone https://github.com/Integral-X/meditrack-backend.git
 cd meditrack-backend
@@ -39,8 +40,14 @@ npm install
 # Copy environment variables
 cp .env.example .env
 
+# Start database services
+docker-compose up -d postgres postgres_test
+
 # Run database migrations
 npm run db:migrate
+
+# Seed database with initial data (e.g., admin user)
+npx prisma db seed
 
 # Start development server
 npm run start:dev
@@ -49,14 +56,8 @@ npm run start:dev
 ### Docker Setup (Recommended)
 
 ```bash
-# Start all services
+# Start database services
 docker-compose up -d
-
-# Run migrations
-docker-compose exec api npm run db:migrate
-
-# View logs
-docker-compose logs -f api
 ```
 
 ## Project Structure
@@ -112,20 +113,9 @@ npm run build
 npm run start:prod
 ```
 
-### Docker Production
 
-```bash
-# Build production image
-docker build -t nestjs-boilerplate .
 
-# Run with docker-compose
-docker-compose -f docker-compose.prod.yml up -d
-```
 
-## API Documentation
-
-- **Swagger UI**: `http://localhost:3000/api/docs`
-- **OpenAPI Spec**: `http://localhost:3000/api/docs-json`
 
 ## Contributing
 

@@ -1,77 +1,38 @@
-# Multi-stage Dockerfile for production optimization
-
-# Development stage
-FROM node:18-alpine AS development
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
+FROM node:20 AS base
 
 # Install dependencies
-RUN npm ci --only=development
-
-# Copy source code
-COPY . .
-
-# Generate Prisma client
-RUN npx prisma generate
-
-EXPOSE 3000
-
-CMD ["npm", "run", "start:dev"]
-
-# Build stage
-FROM node:18-alpine AS build
-
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
+RUN rm -rf node_modules package-lock.json && npm install
 
-# Install all dependencies
-RUN npm ci
-
-# Copy source code
-COPY . .
+# Copy Prisma schema
+COPY prisma ./prisma
 
 # Generate Prisma client
 RUN npx prisma generate
+RUN ls -lR /app/node_modules/.prisma
+
+# Copy source code
+COPY . .
 
 # Build application
 RUN npm run build
 
+# Explicitly set Prisma Query Engine path
+ENV PRISMA_QUERY_ENGINE_LIBRARY="/app/node_modules/.prisma/client/libquery_engine-linux-arm64-openssl-3.0.x.so.node"
+
 # Production stage
-FROM node:18-alpine AS production
+FROM base AS production
 
 # Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+RUN apt-get update && apt-get install -y dumb-init openssl && rm -rf /var/lib/apt/lists/*
 
 # Create app user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nestjs -u 1001
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install only production dependencies
-RUN npm ci --only=production && npm cache clean --force
-
-# Copy built application
-COPY --from=build --chown=nestjs:nodejs /app/dist ./dist
-COPY --from=build --chown=nestjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
-
-# Copy Prisma schema for migrations
-COPY --chown=nestjs:nodejs prisma ./prisma
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nestjs
 
 # Switch to non-root user
 USER nestjs
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node dist/health-check.js
 
 EXPOSE 3000
 

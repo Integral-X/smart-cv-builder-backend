@@ -1,11 +1,22 @@
-console.log('EXECUTING SEED SCRIPT');
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
+import { createLogger, format, transports } from 'winston';
+
+const logger = createLogger({
+  level: 'info',
+  format: format.combine(
+    format.timestamp(),
+    format.printf(({ timestamp, level, message }) => {
+      return `[${timestamp}] ${level.toUpperCase()}: ${message}`;
+    }),
+  ),
+  transports: [new transports.Console()],
+});
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Starting database seeding...');
+  logger.info('Starting database seeding...');
 
   // Create admin user
   const adminPassword = await bcrypt.hash('admin', 12);
@@ -18,14 +29,14 @@ async function main() {
     },
   });
 
-  console.log('Created admin user:', admin.email);
+  logger.info('Created admin user:', admin.email);
 
-  console.log('Database seeding completed!');
+  logger.info('Database seeding completed!');
 }
 
 main()
   .catch((e) => {
-    console.error('Error during seeding:', e);
+    logger.error('Error during seeding:', e);
     process.exit(1);
   })
   .finally(async () => {

@@ -1,8 +1,16 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UnauthorizedException,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { LoginRequestDto } from './dto/request/login.request.dto';
+import { RefreshTokenRequestDto } from './dto/request/refresh-token.request.dto';
+import { AuthResponseDto } from './dto/response/auth.response.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -10,14 +18,21 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'User login' })
-  @ApiBody({ type: LoginDto })
-  @ApiResponse({ status: 200, description: 'Login successful' })
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'User authentication and JWT generation' })
+  @ApiBody({ type: LoginRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Login successful',
+    type: AuthResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async login(@Body() loginDto: LoginDto) {
+  async login(
+    @Body() loginRequestDto: LoginRequestDto,
+  ): Promise<AuthResponseDto> {
     const user = await this.authService.validateUser(
-      loginDto.email,
-      loginDto.password,
+      loginRequestDto.email,
+      loginRequestDto.password,
     );
     if (!user) {
       throw new UnauthorizedException();
@@ -26,11 +41,18 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Refresh access token' })
-  @ApiBody({ type: RefreshTokenDto })
-  @ApiResponse({ status: 200, description: 'Token refreshed successfully' })
+  @ApiBody({ type: RefreshTokenRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Token refreshed successfully',
+    type: AuthResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
-    return this.authService.refreshToken(refreshTokenDto.refreshToken);
+  async refresh(
+    @Body() refreshTokenRequestDto: RefreshTokenRequestDto,
+  ): Promise<AuthResponseDto> {
+    return this.authService.refreshToken(refreshTokenRequestDto.refreshToken);
   }
 }
