@@ -43,12 +43,12 @@ jobs:
       - name: Run database migrations
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: postgresql://meditrack:password@localhost:5432/meditrack_test
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
 
       - name: Seed database
         run: npx prisma db seed
         env:
-          DATABASE_URL: postgresql://meditrack:password@localhost:5432/meditrack_test
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
 
       - name: Run linting
         run: npm run lint
@@ -59,12 +59,12 @@ jobs:
       - name: Run tests
         run: npm run test:cov
         env:
-          DATABASE_URL: postgresql://meditrack:password@localhost:5432/meditrack_test
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
 
       - name: Run E2E tests
         run: npm run test:e2e
         env:
-          DATABASE_URL: postgresql://meditrack:password@localhost:5432/meditrack_test
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
