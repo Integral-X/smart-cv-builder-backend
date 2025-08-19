@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: meditrack-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: meditrack_dev
+      POSTGRES_USER: meditrack
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - meditrack-network
+
+  # Test PostgreSQL Database
+  postgres_test:
+    image: postgres:15-alpine
+    container_name: meditrack-postgres-test
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: meditrack_test
+      POSTGRES_USER: meditrack
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    networks:
+      - meditrack-network
+
+  # NestJS API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: meditrack-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://meditrack:password@postgres:5432/meditrack_dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - meditrack-network
+    command: npm run start:dev
+
+volumes:
+  postgres_data:
+
+networks:
+  meditrack-network:
+    driver: bridge
