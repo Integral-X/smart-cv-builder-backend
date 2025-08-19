@@ -2,16 +2,6 @@
 
 Your AI health tracker.
 
-## Features
-
-- **Authentication**: JWT-based authentication using Passport.
-- **Database**: PostgreSQL with Prisma ORM.
-- **Feature Flags**: Unleash integration for feature flag management.
-- **Health Check**: A dedicated health check endpoint.
-- **Validation**: Validation pipes for incoming requests.
-- **Security**: Helmet for security headers and CORS configuration.
-- **Containerization**: Dockerized setup for easy development and deployment.
-
 ## Tech Stack
 
 - **Framework**: NestJS (Node.js + TypeScript)
@@ -51,13 +41,6 @@ npx prisma db seed
 
 # Start development server
 npm run start:dev
-```
-
-### Docker Setup (Recommended)
-
-```bash
-# Start database services
-docker-compose up -d
 ```
 
 ## Project Structure
@@ -100,22 +83,6 @@ npm run test:e2e
 # Test coverage
 npm run test:cov
 ```
-
-## Deployment
-
-### Production Build
-
-```bash
-# Build application
-npm run build
-
-# Start production server
-npm run start:prod
-```
-
-
-
-
 
 ## Contributing
 
