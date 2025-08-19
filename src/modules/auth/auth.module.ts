@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { WinstonModule } from 'nest-winston';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -19,6 +20,7 @@ import { PrismaService } from '@/config/prisma.service';
       }),
       inject: [ConfigService],
     }),
+    WinstonModule,
   ],
   providers: [
     AuthService,
@@ -27,6 +29,7 @@ import { PrismaService } from '@/config/prisma.service';
     UsersService,
     PrismaService,
     ConfigService,
+    Logger,
   ],
   controllers: [AuthController],
   exports: [AuthService],

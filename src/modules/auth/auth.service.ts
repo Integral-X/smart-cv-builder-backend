@@ -1,13 +1,15 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UsersService } from './users.service';
+import { AuthResponseDto } from './dto/response/auth.response.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly logger: Logger = new Logger(AuthService.name),
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
@@ -20,13 +22,13 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async login(user: any): Promise<AuthResponseDto> {
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
 
-  async refreshToken(refreshToken: string) {
+  async refreshToken(refreshToken: string): Promise<AuthResponseDto> {
     const decoded = await this.decodeRefreshToken(refreshToken);
     const user = await this.usersService.findById(decoded.sub);
     if (!user || !user.refreshToken) {
@@ -89,7 +91,8 @@ export class AuthService {
       return await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_REFRESH_SECRET,
       });
-    } catch {
+    } catch (error) {
+      this.logger.error('Error decoding refresh token:', error);
       throw new UnauthorizedException();
     }
   }

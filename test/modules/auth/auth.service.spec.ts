@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '../../../src/modules/auth/auth.service';
 import { UsersService } from '../../../src/modules/auth/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../../../src/config/prisma.service';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
@@ -22,6 +22,16 @@ describe('AuthService', () => {
         UsersService,
         JwtService,
         { provide: PrismaService, useValue: mockDeep<PrismaService>() },
+        {
+          provide: Logger,
+          useValue: {
+            log: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn(),
+            verbose: jest.fn(),
+          },
+        },
       ],
     }).compile();
 

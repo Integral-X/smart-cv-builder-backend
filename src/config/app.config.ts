@@ -52,6 +52,7 @@ export const AppConfig = () => ({
     },
   },
   cors: {
+    disable: process.env.DISABLE_CORS === 'true',
     origin: process.env.CORS_ORIGIN?.split(',') || ['*'],
   },
   upload: {
@@ -80,5 +81,8 @@ export const AppConfig = () => ({
   medicineDb: {
     url: process.env.MEDICINE_DB_URL,
     apiKey: process.env.MEDICINE_DB_API_KEY,
+  },
+  unleash: {
+    mock: process.env.UNLEASH_MOCK === 'true',
   },
 });

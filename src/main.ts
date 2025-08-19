@@ -1,15 +1,17 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
-import compression from 'compression';
+import * as compression from 'compression';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+
+const logger = new Logger('Bootstrap');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -30,8 +32,9 @@ async function bootstrap() {
   app.use(compression());
 
   // CORS configuration
+  const disableCors = configService.get<boolean>('cors.disable');
   app.enableCors({
-    origin: corsOrigin.split(','),
+    origin: disableCors ? '*' : corsOrigin.split(','),
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -68,58 +71,52 @@ async function bootstrap() {
   );
 
   // Swagger documentation
-  if (process.env.NODE_ENV !== 'production') {
-    const config = new DocumentBuilder()
-      .setTitle('MediTrack AI API')
-      .setDescription('Intelligent medication management platform API')
-      .setVersion('1.0')
-      .addBearerAuth(
-        {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-          name: 'JWT',
-          description: 'Enter JWT token',
-          in: 'header',
-        },
-        'JWT-auth',
-      )
-      .addTag('Authentication', 'User authentication and authorization')
-      .addTag('Users', 'User management and profiles')
-      .addTag('Prescriptions', 'Prescription OCR and management')
-      .addTag('Medications', 'Medication scheduling and tracking')
-      .addTag('Health', 'Health reports and analytics')
-      .addTag('Notifications', 'Push notifications and alerts')
-      .addTag('Family', 'Family and caregiver management')
-      .build();
-
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/docs', app, document, {
-      swaggerOptions: {
-        persistAuthorization: true,
+  const config = new DocumentBuilder()
+    .setTitle('MediTrack AI API')
+    .setDescription('Intelligent medication management platform API')
+    .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
       },
-    });
-  }
+      'JWT-auth',
+    )
+    .addTag('Authentication', 'User authentication and authorization')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup(apiPrefix + '/v1/docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
   // Graceful shutdown
   process.on('SIGTERM', async () => {
-    console.log('SIGTERM received, shutting down gracefully');
+    logger.log('SIGTERM received, shutting down gracefully');
     await app.close();
     process.exit(0);
   });
 
   process.on('SIGINT', async () => {
-    console.log('SIGINT received, shutting down gracefully');
+    logger.log('SIGINT received, shutting down gracefully');
     await app.close();
     process.exit(0);
   });
 
   await app.listen(port);
-  console.log(`MediTrack AI Backend running on port ${port}`);
-  console.log(`API Documentation: http://localhost:${port}/api/docs`);
+  logger.log(`MediTrack AI Backend running on port ${port}`);
+  logger.log(
+    `API Documentation: http://localhost:${port}/${apiPrefix}/v1/docs`,
+  );
 }
 
 bootstrap().catch(err => {
-  console.error('Failed to start application:', err);
+  logger.error('Failed to start application:', err);
   process.exit(1);
 });

@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { WinstonModule } from 'nest-winston';
 
 // Configuration
 import { DatabaseModule } from './config/database.module';
 import { AppConfig } from './config/app.config';
+import { LoggerConfig } from './config/logger.config';
 
 // Core modules
 import { AuthModule } from './modules/auth/auth.module';
@@ -19,6 +21,9 @@ import { HealthModule } from './modules/health/health.module';
       load: [AppConfig],
       envFilePath: ['.env.local', '.env'],
     }),
+
+    // Logging
+    WinstonModule.forRoot(LoggerConfig()),
 
     // Rate limiting
     ThrottlerModule.forRoot({

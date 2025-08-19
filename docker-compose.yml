@@ -31,27 +31,7 @@ services:
     networks:
       - meditrack-network
 
-  # NestJS API
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    container_name: meditrack-api
-    restart: unless-stopped
-    environment:
-      NODE_ENV: development
-      DATABASE_URL: postgresql://meditrack:password@postgres:5432/meditrack_dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    depends_on:
-      - postgres
-    networks:
-      - meditrack-network
-    command: npm run start:dev
+  
 
 volumes:
   postgres_data:
