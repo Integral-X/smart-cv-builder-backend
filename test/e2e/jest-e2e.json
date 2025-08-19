@@ -8,6 +8,5 @@
   },
   "moduleNameMapper": {
     "@/(.*)$": "<rootDir>/../../src/$1"
-  },
-  "globalSetup": "<rootDir>/setup.ts"
+  }
 }
