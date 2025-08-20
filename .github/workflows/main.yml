@@ -106,12 +106,20 @@ jobs:
         with:
           string: ${{ github.repository }}
 
+      - name: Get next version
+        id: version
+        uses: mathiasvr/get-next-version-action@v1
+        with:
+          prefix: v
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ steps.repo.outputs.lowercase }}:${{ github.sha }}
+          tags: |
+            ghcr.io/${{ steps.repo.outputs.lowercase }}:${{ steps.version.outputs.version }}
+            ghcr.io/${{ steps.repo.outputs.lowercase }}:latest
 
       - name: Create Release
         id: create_release
@@ -119,8 +127,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: Release ${{ steps.version.outputs.version }}
           body: |
             Automated release based on commit ${{ github.sha }}
           draft: false
