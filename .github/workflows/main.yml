@@ -106,30 +106,21 @@ jobs:
         with:
           string: ${{ github.repository }}
 
-      - name: Get next version
-        id: version
-        uses: mathiasvr/get-next-version-action@v1
-        with:
-          prefix: v
+      - name: Install semantic-release dependencies
+        run: npm install @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/npm @semantic-release/github
+
+      - name: Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ steps.repo.outputs.lowercase }}:${{ steps.version.outputs.version }}
+            ghcr.io/${{ steps.repo.outputs.lowercase }}:${{ steps.semantic.outputs.new_release_version }}
             ghcr.io/${{ steps.repo.outputs.lowercase }}:latest
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}
-          body: |
-            Automated release based on commit ${{ github.sha }}
-          draft: false
-          prerelease: false
