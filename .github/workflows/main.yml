@@ -61,11 +61,13 @@ jobs:
         run: npm run test:cov
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
+          UNLEASH_API_TOKEN: ${{ secrets.UNLEASH_API_TOKEN }}
 
       - name: Run E2E tests
         run: npm run test:e2e
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
+          UNLEASH_API_TOKEN: ${{ secrets.UNLEASH_API_TOKEN }}
 
   release:
     runs-on: ubuntu-latest
