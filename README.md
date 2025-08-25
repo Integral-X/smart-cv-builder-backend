@@ -11,7 +11,6 @@ Your AI health tracker.
 ## Prerequisites
 
 - Node.js 20+ and npm
-- PostgreSQL 14+
 - Docker & Docker Compose (recommended)
 
 ## Quick Start
@@ -29,17 +28,11 @@ npm install
 # Copy environment variables
 cp .env.example .env
 
-# Start database services
-docker-compose up -d postgres postgres_test
+# Start the application in development mode
+./start.sh
 
-# Run database migrations
-npm run db:migrate
-
-# Seed database with initial data (e.g., admin user)
-npx prisma db seed
-
-# Start development server
-npm run start:dev
+# To stop all services
+./stop.sh
 ```
 
 ## Project Structure
@@ -68,13 +61,13 @@ src/
 
 ## Feature Flags
 
-This project uses **[Unleash](https://unleash.mahiuddinalkamal.com)** for feature flag management.
+This project uses [Unleash](https://unleash.mahiuddinalkamal.com) for feature flag management.
 
-See **[UNLEASH_DEV_GUIDE.md](./UNLEASH_DEV_GUIDE.md)** for complete documentation.
+See [developer guide](./UNLEASH_DEV_GUIDE.md) for documentation.
 
 ## Environment Variables
 
-See `.env.example` for available environment variables.
+See `.env.example` for available environment variables. Copy the file to `.env` and update the values as needed.
 
 ## Testing
 

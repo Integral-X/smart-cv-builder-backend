@@ -31,8 +31,6 @@ services:
     networks:
       - meditrack-network
 
-  
-
 volumes:
   postgres_data:
 

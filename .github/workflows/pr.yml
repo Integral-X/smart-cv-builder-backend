@@ -29,8 +29,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -61,11 +61,13 @@ jobs:
         run: npm run test:cov
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
+          UNLEASH_API_TOKEN: ${{ secrets.UNLEASH_API_TOKEN }}
 
       - name: Run E2E tests
         run: npm run test:e2e
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/meditrack_test
+          UNLEASH_API_TOKEN: ${{ secrets.UNLEASH_API_TOKEN }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -83,8 +85,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci

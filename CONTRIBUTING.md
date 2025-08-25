@@ -7,9 +7,7 @@ This document provides guidelines and information for contributors.
 ### Prerequisites
 
 - Node.js 20+ and npm
-- Git
 - Docker & Docker Compose (for running the PostgreSQL database)
-- PostgreSQL 14+ (running via Docker)
 
 ### Development Setup
 
@@ -32,10 +30,11 @@ This document provides guidelines and information for contributors.
 
 4. **Start development environment**
    ```bash
-   docker-compose up -d postgres postgres_test
-   npm run db:migrate
-   npx prisma db seed
-   npm run start:dev
+   ./start.sh
+   ```
+5. **Stop all services**
+   ```bash
+   ./stop.sh
    ```
 
 ## Development Guidelines
