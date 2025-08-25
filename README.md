@@ -19,7 +19,6 @@ Your AI health tracker.
 ### Development Setup
 
 ```bash
-
 # Clone the repository
 git clone https://github.com/Integral-X/meditrack-backend.git
 cd meditrack-backend
@@ -66,6 +65,12 @@ src/
     ├── dto/                # Data transfer objects
     └── interfaces/         # Common interfaces
 ```
+
+## Feature Flags
+
+This project uses **[Unleash](https://unleash.mahiuddinalkamal.com)** for feature flag management.
+
+See **[UNLEASH_DEV_GUIDE.md](./UNLEASH_DEV_GUIDE.md)** for complete documentation.
 
 ## Environment Variables
 

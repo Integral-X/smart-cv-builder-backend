@@ -7,6 +7,7 @@ import { WinstonModule } from 'nest-winston';
 import { DatabaseModule } from './config/database.module';
 import { AppConfig } from './config/app.config';
 import { LoggerConfig } from './config/logger.config';
+import unleashConfig from './modules/unleash/unleash.config';
 
 // Core modules
 import { AuthModule } from './modules/auth/auth.module';
@@ -18,7 +19,7 @@ import { HealthModule } from './modules/health/health.module';
     // Configuration
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [AppConfig],
+      load: [AppConfig, unleashConfig],
       envFilePath: ['.env.local', '.env'],
     }),
 
