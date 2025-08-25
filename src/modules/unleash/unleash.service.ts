@@ -71,7 +71,6 @@ export class UnleashService implements OnModuleInit, OnModuleDestroy {
         destroy: () => Promise.resolve(),
       } as MockUnleashClient;
 
-      // Log mock features
       this.logAvailableFeatures();
     } else {
       await this.initializeUnleashClient();
@@ -97,22 +96,20 @@ export class UnleashService implements OnModuleInit, OnModuleDestroy {
         );
       }
 
-      // Initialize Unleash server client (not proxy client)
+      // Initialize Unleash server client
       this.unleash = initialize({
-        url, // Full Unleash API URL (e.g., https://unleash.mahiuddinalkamal.com/api/)
+        url,
         appName,
         customHeaders: {
-          Authorization: apiToken, // Server-side API token (just the token, not formatted)
+          Authorization: apiToken,
         },
         refreshInterval: 15000, // 15 seconds
         metricsInterval: 60000, // 1 minute
-        // Remove instanceId as it's not in the official documentation
       });
 
       // Set up event listeners for monitoring
       this.unleash.on('ready', () => {
         this.logger.log('Unleash client initialized successfully');
-        // Don't log features here - wait for 'synchronized' event
       });
 
       this.unleash.on('error', error => {
