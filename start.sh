@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Start database services
 docker-compose up -d postgres postgres_test
