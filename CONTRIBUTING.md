@@ -1,4 +1,4 @@
-# Contributing to MediTrack AI Backend
+# Contributing to Smart CV Builder Backend
 
 This document provides guidelines and information for contributors.
 
@@ -13,8 +13,8 @@ This document provides guidelines and information for contributors.
 
 1. **Fork and clone the repository**
    ```bash
-   git clone https://github.com/Integral-X/meditrack-backend.git
-   cd meditrack-backend
+   git clone https://github.com/integral-x/smart-cv-builder-backend.git
+   cd smart-cv-builder-backend
    ```
 
 2. **Install dependencies**
@@ -184,4 +184,4 @@ For new features:
 - Use environment variables for secrets
 - Follow security best practices
 
-Thank you for contributing to MediTrack AI!
+Thank you for contributing to Smart CV Builder Backend!

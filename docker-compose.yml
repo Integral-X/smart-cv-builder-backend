@@ -4,36 +4,36 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: meditrack-postgres
+    container_name: smartcv-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: meditrack_dev
-      POSTGRES_USER: meditrack
+      POSTGRES_DB: smartcv_dev
+      POSTGRES_USER: smartcv
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - meditrack-network
+      - smartcv-network
 
   # Test PostgreSQL Database
   postgres_test:
     image: postgres:15-alpine
-    container_name: meditrack-postgres-test
+    container_name: smartcv-postgres-test
     restart: unless-stopped
     environment:
-      POSTGRES_DB: meditrack_test
-      POSTGRES_USER: meditrack
+      POSTGRES_DB: smartcv_test
+      POSTGRES_USER: smartcv
       POSTGRES_PASSWORD: password
     ports:
       - "5433:5432"
     networks:
-      - meditrack-network
+      - smartcv-network
 
 volumes:
   postgres_data:
 
 networks:
-  meditrack-network:
+  smartcv-network:
     driver: bridge
