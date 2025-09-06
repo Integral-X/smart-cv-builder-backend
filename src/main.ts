@@ -71,10 +71,15 @@ async function bootstrap() {
   );
 
   // Swagger documentation
+  const appName = configService.get<string>(
+    'app.name',
+    'Smart CV Builder Backend',
+  );
+  const appVersion = configService.get<string>('app.version', '1.0.0');
   const config = new DocumentBuilder()
-    .setTitle('MediTrack AI API')
-    .setDescription('Intelligent medication management platform API')
-    .setVersion('1.0')
+    .setTitle(`${appName} API`)
+    .setDescription('Smart CV Builder Backend API')
+    .setVersion(appVersion)
     .addBearerAuth(
       {
         type: 'http',
@@ -110,7 +115,7 @@ async function bootstrap() {
   });
 
   await app.listen(port);
-  logger.log(`MediTrack AI Backend running on port ${port}`);
+  logger.log(`${appName} running on port ${port}`);
   logger.log(
     `API Documentation: http://localhost:${port}/${apiPrefix}/v1/docs`,
   );

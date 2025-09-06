@@ -1,6 +1,6 @@
-# MediTrack-AI
+# Smart CV Builder Backend
 
-Your AI health tracker.
+Smart CV Builder Backend API
 
 ## Tech Stack
 
@@ -19,8 +19,8 @@ Your AI health tracker.
 
 ```bash
 # Clone the repository
-git clone https://github.com/Integral-X/meditrack-backend.git
-cd meditrack-backend
+git clone https://github.com/integral-x/smart-cv-builder-backend.git
+cd smart-cv-builder-backend
 
 # Install dependencies
 npm install
@@ -88,4 +88,4 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## License
 
-Copyright (c) 2025 @Integral-X.
+Copyright (c) 2025 Smart CV Builder.

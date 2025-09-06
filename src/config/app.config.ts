@@ -1,7 +1,7 @@
 export const AppConfig = () => ({
   app: {
-    name: 'MediTrack AI Backend',
-    version: '1.0.0',
+    name: process.env.APP_NAME || 'Smart CV Builder Backend',
+    version: process.env.APP_VERSION || '1.0.0',
     port: parseInt(process.env.PORT, 10) || 3000,
     apiPrefix: process.env.API_PREFIX || 'api/v1',
     environment: process.env.NODE_ENV || 'development',
@@ -36,7 +36,7 @@ export const AppConfig = () => ({
       useSSL: process.env.MINIO_USE_SSL === 'true',
       accessKey: process.env.MINIO_ACCESS_KEY || 'minioadmin',
       secretKey: process.env.MINIO_SECRET_KEY || 'minioadmin',
-      bucketName: process.env.MINIO_BUCKET_NAME || 'meditrack-storage',
+      bucketName: process.env.MINIO_BUCKET_NAME || 'smartcv-storage',
     },
   },
   notifications: {

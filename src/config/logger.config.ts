@@ -46,7 +46,11 @@ export const LoggerConfig = (): WinstonModuleOptions => {
       winston.format.errors({ stack: true }),
       winston.format.json(),
     ),
-    defaultMeta: { service: 'meditrack-backend' },
+    defaultMeta: {
+      service:
+        process.env.APP_NAME?.toLowerCase().replace(/\s+/g, '-') ||
+        'smart-cv-builder-backend',
+    },
     transports,
   };
 };

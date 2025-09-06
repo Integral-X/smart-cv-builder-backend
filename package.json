@@ -1,7 +1,7 @@
 {
-  "name": "MediTrackAI",
+  "name": "smart-cv-builder-backend",
   "version": "1.0.0",
-  "description": "Your AI health tracker.",
+  "description": "Smart CV Builder Backend API",
   "author": "mahiuddinalkamal",
   "private": true,
   "license": "MIT",
@@ -13,18 +13,18 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "pretest": "export DATABASE_URL=postgresql://meditrack:password@localhost:5433/meditrack_test && npx prisma migrate deploy",
+    "pretest": "export DATABASE_URL=postgresql://smartcv:password@localhost:5433/smartcv_test && npx prisma migrate deploy",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "export DATABASE_URL=${DATABASE_URL:-postgresql://meditrack:password@localhost:5433/meditrack_test} && npx prisma migrate deploy && npx prisma db seed && jest --config ./test/e2e/jest-e2e.json",
+    "test:e2e": "export DATABASE_URL=${DATABASE_URL:-postgresql://smartcv:password@localhost:5433/smartcv_test} && npx prisma migrate deploy && npx prisma db seed && jest --config ./test/e2e/jest-e2e.json",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "docker:build": "docker build -t nestjs-boilerplate .",
-    "docker:run": "docker run -p 3000:3000 nestjs-boilerplate"
+    "docker:build": "docker build -t smart-cv-builder-backend .",
+    "docker:run": "docker run -p 3000:3000 smart-cv-builder-backend"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
