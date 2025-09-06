@@ -13,7 +13,7 @@ This document provides guidelines and information for contributors.
 
 1. **Fork and clone the repository**
    ```bash
-   git clone https://github.com/your-org/smart-cv-builder-backend.git
+   git clone https://github.com/integral-x/smart-cv-builder-backend.git
    cd smart-cv-builder-backend
    ```
 
