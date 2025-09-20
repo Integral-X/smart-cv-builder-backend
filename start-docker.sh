@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-# Debug: Check if DATABASE_URL is set
-echo "DATABASE_URL is: ${DATABASE_URL:0:20}..." # Only show first 20 chars for security
 
 # Run database migrations
 npm run db:deploy
