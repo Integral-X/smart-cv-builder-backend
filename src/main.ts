@@ -114,7 +114,10 @@ async function bootstrap() {
     process.exit(0);
   });
 
-  await app.listen(port);
+  // For Docker on macOS, we need to be explicit about the binding
+  const host = '0.0.0.0';
+  await app.listen(port, host);
+  logger.log(`Listening on ${host}:${port}`);
   logger.log(`${appName} running on port ${port}`);
   logger.log(
     `API Documentation: http://localhost:${port}/${apiPrefix}/v1/docs`,
