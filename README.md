@@ -1,6 +1,6 @@
-# Smart CV Builder Backend
+# Crack CV Backend
 
-Smart CV Builder Backend API
+Your CV buddy.
 
 ## Tech Stack
 
@@ -19,8 +19,8 @@ Smart CV Builder Backend API
 
 ```bash
 # Clone the repository
-git clone https://github.com/integral-x/smart-cv-builder-backend.git
-cd smart-cv-builder-backend
+git clone https://github.com/integral-x/crackcv-backend.git
+cd crackcv-backend
 
 # Install dependencies
 npm install
@@ -35,33 +35,10 @@ cp .env.example .env
 ./stop.sh
 ```
 
-## Project Structure
-
-```
-src/
-├── app.module.ts           # Root application module
-├── main.ts                 # Application entry point
-├── common/                 # Shared utilities, guards, interceptors
-│   ├── controllers/        # Common controllers (health checks)
-│   ├── decorators/         # Custom decorators
-│   ├── filters/            # Exception filters
-│   ├── guards/             # Authentication & authorization guards
-│   └── interceptors/       # Request/response interceptors
-├── config/                 # Configuration modules & services
-│   ├── app.config.ts       # Application configuration
-│   ├── database.module.ts  # Database module setup
-│   └── prisma.service.ts   # Prisma database service
-├── modules/                # Domain-specific feature modules
-│   ├── auth/               # Authentication & authorization
-│   └── unleash/            # Unleash feature flag management
-└── shared/                 # Shared DTOs, interfaces, types
-    ├── dto/                # Data transfer objects
-    └── interfaces/         # Common interfaces
-```
 
 ## Feature Flags
 
-This project uses [Unleash](https://unleash.mahiuddinalkamal.com) for feature flag management.
+This project uses [Unleash](https://unleash.crackcv.com) for feature flag management.
 
 See [developer guide](./UNLEASH_DEV_GUIDE.md) for documentation.
 
