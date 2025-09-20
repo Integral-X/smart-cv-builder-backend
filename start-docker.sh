@@ -27,20 +27,6 @@ fi
 echo "Checking what's on port 3000 before starting:"
 netstat -tlnp | grep :3000 || echo "Nothing listening on port 3000"
 
-# Test: Start a simple HTTP server first to test networking
-echo "Starting simple HTTP server on port 3000 for testing..."
-echo "Hello from Docker container" > /tmp/test.html
-python3 -m http.server 3000 --directory /tmp &
-SIMPLE_PID=$!
-
-sleep 2
-echo "Testing simple HTTP server:"
-curl -s http://localhost:3000/test.html || echo "Simple server not responding"
-
-# Kill the simple server
-kill $SIMPLE_PID 2>/dev/null || true
-sleep 1
-
 # Start server - use development mode for now since production build might be missing
 echo "Starting NestJS server..."
 npm run start:dev &
