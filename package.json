@@ -24,10 +24,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
     "docker:build": "docker build -t crackcv-backend .",
-    "docker:run": "docker run -p 3000:3000 --network=host --env-file .env crackcv-backend",
-    "docker:run:ports": "docker run -p 3000:3000 --env-file .env crackcv-backend",
-    "docker:compose": "docker-compose up --build",
-    "docker:compose:down": "docker-compose down"
+    "docker:run": "docker run -p 3000:3000 --network=host --env-file .env crackcv-backend"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
