@@ -1,7 +1,5 @@
 #!/bin/bash
 set -e
-
-
 # Run database migrations
 npm run db:deploy
 
