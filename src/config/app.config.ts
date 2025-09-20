@@ -36,7 +36,7 @@ export const AppConfig = () => ({
       useSSL: process.env.MINIO_USE_SSL === 'true',
       accessKey: process.env.MINIO_ACCESS_KEY || 'minioadmin',
       secretKey: process.env.MINIO_SECRET_KEY || 'minioadmin',
-      bucketName: process.env.MINIO_BUCKET_NAME || 'smartcv-storage',
+      bucketName: process.env.MINIO_BUCKET_NAME || 'crackcv-storage',
     },
   },
   notifications: {
