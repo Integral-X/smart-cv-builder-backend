@@ -8,24 +8,6 @@ npm run db:deploy
 # Seed database with initial data
 npx prisma db seed
 
-# Debug: Check if dist directory exists and what's in it
-echo "Checking dist directory:"
-ls -la dist/ || echo "dist directory not found"
-
-# Debug: Check if main.js exists
-if [ -f "dist/main.js" ]; then
-    echo "main.js found in dist/"
-else
-    echo "main.js NOT found in dist/"
-    echo "Contents of dist:"
-    find dist/ -name "*.js" | head -10 || echo "No JS files found"
-fi
-
-# Debug: Check what's listening on port 3000 before starting
-echo "Checking what's on port 3000 before starting:"
-netstat -tlnp | grep :3000 || echo "Nothing listening on port 3000"
-
-# Start server - use development mode for now since production build might be missing
 echo "Starting NestJS server..."
 npm run start:dev &
 
