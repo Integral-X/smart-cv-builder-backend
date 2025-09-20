@@ -115,7 +115,7 @@ async function bootstrap() {
   });
 
   // For Docker on macOS, we need to be explicit about the binding
-  const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '0.0.0.0';
+  const host = '0.0.0.0';
   await app.listen(port, host);
   logger.log(`Listening on ${host}:${port}`);
   logger.log(`${appName} running on port ${port}`);
